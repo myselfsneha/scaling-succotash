@@ -1,6 +1,7 @@
 import cors from 'cors';
 import express from 'express';
 import authRoutes from './routes/authRoutes.js';
+import studentRoutes from './routes/studentRoutes.js';
 
 const app = express();
 
@@ -12,5 +13,15 @@ app.get('/api/health', (_req, res) => {
 });
 
 app.use('/api/auth', authRoutes);
+app.use('/api/students', studentRoutes);
+
+app.use((error, _req, res, _next) => {
+  if (error?.code === 'ER_DUP_ENTRY') {
+    return res.status(409).json({ message: 'Duplicate entry detected for this tenant' });
+  }
+
+  console.error(error);
+  return res.status(500).json({ message: 'Internal server error' });
+});
 
 export default app;

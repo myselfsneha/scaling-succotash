@@ -1,14 +1,7 @@
 const API_BASE_URL = 'http://localhost:5000/api';
 
-export const apiRequest = async (path, options = {}) => {
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      ...(options.headers || {})
-    },
-    ...options
-  });
-
+const request = async (path, options = {}) => {
+  const response = await fetch(`${API_BASE_URL}${path}`, options);
   const data = await response.json();
 
   if (!response.ok) {
@@ -16,4 +9,53 @@ export const apiRequest = async (path, options = {}) => {
   }
 
   return data;
+};
+
+export const authApi = {
+  register: (payload) =>
+    request('/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }),
+  login: (payload) =>
+    request('/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+};
+
+export const studentApi = {
+  list: (token) =>
+    request('/students', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }),
+  create: (token, payload) =>
+    request('/students', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(payload)
+    }),
+  update: (token, id, payload) =>
+    request(`/students/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(payload)
+    }),
+  remove: (token, id) =>
+    request(`/students/${id}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
 };

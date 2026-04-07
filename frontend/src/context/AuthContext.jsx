@@ -1,39 +1,31 @@
 import { createContext, useContext, useMemo, useState } from 'react';
-import { apiRequest } from '../services/api';
+import { authApi } from '../services/api';
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState(() => {
-    const stored = localStorage.getItem('auth');
+    const stored = localStorage.getItem('sms_auth');
     return stored ? JSON.parse(stored) : { token: null, user: null };
   });
 
-  const persistAuth = (nextAuth) => {
+  const saveAuth = (nextAuth) => {
     setAuth(nextAuth);
-    localStorage.setItem('auth', JSON.stringify(nextAuth));
+    localStorage.setItem('sms_auth', JSON.stringify(nextAuth));
   };
 
-  const login = async ({ email, password }) => {
-    const data = await apiRequest('/auth/login', {
-      method: 'POST',
-      body: JSON.stringify({ email, password })
-    });
-
-    persistAuth({ token: data.token, user: data.user });
+  const register = async (payload) => {
+    const data = await authApi.register(payload);
+    saveAuth({ token: data.token, user: data.user });
   };
 
-  const signup = async ({ name, email, password }) => {
-    const data = await apiRequest('/auth/signup', {
-      method: 'POST',
-      body: JSON.stringify({ name, email, password })
-    });
-
-    persistAuth({ token: data.token, user: data.user });
+  const login = async (payload) => {
+    const data = await authApi.login(payload);
+    saveAuth({ token: data.token, user: data.user });
   };
 
   const logout = () => {
-    persistAuth({ token: null, user: null });
+    saveAuth({ token: null, user: null });
   };
 
   const value = useMemo(
@@ -41,11 +33,11 @@ export const AuthProvider = ({ children }) => {
       token: auth.token,
       user: auth.user,
       isAuthenticated: Boolean(auth.token),
+      register,
       login,
-      signup,
       logout
     }),
-    [auth.token, auth.user]
+    [auth]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
@@ -54,7 +46,7 @@ export const AuthProvider = ({ children }) => {
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth must be used within AuthProvider');
+    throw new Error('useAuth must be used inside AuthProvider');
   }
   return context;
 };
