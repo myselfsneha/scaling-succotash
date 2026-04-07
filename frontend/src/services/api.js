@@ -59,3 +59,12 @@ export const studentApi = {
       }
     })
 };
+
+export const dashboardApi = {
+  stats: (token) =>
+    request('/dashboard/stats', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+};

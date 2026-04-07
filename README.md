@@ -7,6 +7,7 @@ A full-stack starter for a **Student Management System** with:
 - **Auth**: JWT login/register
 - **Multi-tenant isolation** using `tenant_id`
 - **Student CRUD** scoped per tenant
+- **Dashboard stats API + modern SaaS dashboard UI**
 
 ## Folder Structure
 
@@ -19,18 +20,22 @@ A full-stack starter for a **Student Management System** with:
 │   │   │   └── env.js
 │   │   ├── controllers
 │   │   │   ├── authController.js
+│   │   │   ├── dashboardController.js
 │   │   │   └── studentController.js
 │   │   ├── db
 │   │   │   └── schema.sql
 │   │   ├── middleware
 │   │   │   └── authMiddleware.js
 │   │   ├── models
+│   │   │   ├── dashboardModel.js
 │   │   │   ├── studentModel.js
 │   │   │   └── userModel.js
 │   │   ├── routes
 │   │   │   ├── authRoutes.js
+│   │   │   ├── dashboardRoutes.js
 │   │   │   └── studentRoutes.js
 │   │   ├── utils
+│   │   │   ├── asyncHandler.js
 │   │   │   └── token.js
 │   │   ├── app.js
 │   │   └── server.js
@@ -65,6 +70,7 @@ A full-stack starter for a **Student Management System** with:
 Run SQL in `backend/src/db/schema.sql` to create:
 
 - `users(id, email, password, role, tenant_id)`
+- `courses(id, name, tenant_id)`
 - `students(id, name, email, course, tenant_id)`
 
 ## API Endpoints
@@ -80,7 +86,13 @@ Run SQL in `backend/src/db/schema.sql` to create:
 - `PUT /api/students/:id`
 - `DELETE /api/students/:id`
 
-All student routes only operate on rows matching the logged-in user's `tenant_id`.
+### Dashboard (protected)
+- `GET /api/dashboard/stats`
+  - `total_students`
+  - `total_courses`
+  - `recent_students` (last 5)
+
+All student and dashboard routes only operate on rows matching the logged-in user's `tenant_id`.
 
 ## Quick Start
 

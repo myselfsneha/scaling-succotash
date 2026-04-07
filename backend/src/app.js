@@ -1,6 +1,7 @@
 import cors from 'cors';
 import express from 'express';
 import authRoutes from './routes/authRoutes.js';
+import dashboardRoutes from './routes/dashboardRoutes.js';
 import studentRoutes from './routes/studentRoutes.js';
 
 const app = express();
@@ -14,6 +15,7 @@ app.get('/api/health', (_req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/students', studentRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 app.use((error, _req, res, _next) => {
   if (error?.code === 'ER_DUP_ENTRY') {
