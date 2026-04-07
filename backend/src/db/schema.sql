@@ -24,3 +24,12 @@ CREATE TABLE IF NOT EXISTS students (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   UNIQUE KEY unique_student_email_per_tenant (tenant_id, email)
 );
+
+CREATE TABLE IF NOT EXISTS fees (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  student_id INT NOT NULL,
+  amount_paid DECIMAL(10,2) NOT NULL,
+  tenant_id VARCHAR(100) NOT NULL,
+  paid_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE
+);

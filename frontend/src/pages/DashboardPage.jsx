@@ -8,6 +8,7 @@ export const DashboardPage = () => {
   const [stats, setStats] = useState({
     total_students: 0,
     total_courses: 0,
+    total_revenue: 0,
     recent_students: []
   });
   const [error, setError] = useState('');
@@ -39,7 +40,10 @@ export const DashboardPage = () => {
         </div>
         <div className="flex items-center gap-2">
           <Link to="/students" className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white">
-            Manage Students
+            Students
+          </Link>
+          <Link to="/fees" className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white">
+            Fees
           </Link>
           <button onClick={logout} className="rounded-lg bg-slate-800 px-4 py-2 text-sm font-medium text-white">
             Logout
@@ -49,7 +53,7 @@ export const DashboardPage = () => {
 
       {error && <p className="rounded-lg bg-red-100 p-3 text-sm text-red-700">{error}</p>}
 
-      <section className="grid gap-4 sm:grid-cols-2">
+      <section className="grid gap-4 md:grid-cols-3">
         <div className="rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 p-6 text-white shadow-sm">
           <p className="text-sm uppercase tracking-wide text-blue-100">Total Students</p>
           <p className="mt-3 text-4xl font-bold">{stats.total_students}</p>
@@ -57,6 +61,10 @@ export const DashboardPage = () => {
         <div className="rounded-2xl bg-gradient-to-br from-violet-500 to-violet-600 p-6 text-white shadow-sm">
           <p className="text-sm uppercase tracking-wide text-violet-100">Total Courses</p>
           <p className="mt-3 text-4xl font-bold">{stats.total_courses}</p>
+        </div>
+        <div className="rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 p-6 text-white shadow-sm">
+          <p className="text-sm uppercase tracking-wide text-emerald-100">Total Revenue</p>
+          <p className="mt-3 text-4xl font-bold">${stats.total_revenue.toLocaleString()}</p>
         </div>
       </section>
 

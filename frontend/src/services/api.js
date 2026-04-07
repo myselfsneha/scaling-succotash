@@ -68,3 +68,27 @@ export const dashboardApi = {
       }
     })
 };
+
+export const feeApi = {
+  create: (token, payload) =>
+    request('/fees', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(payload)
+    }),
+  list: (token) =>
+    request('/fees', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }),
+  summary: (token) =>
+    request('/fees/summary', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+};

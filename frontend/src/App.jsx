@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { DashboardPage } from './pages/DashboardPage';
+import { FeesPage } from './pages/FeesPage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { StudentsPage } from './pages/StudentsPage';
@@ -25,6 +26,14 @@ const App = () => {
           element={
             <ProtectedRoute>
               <StudentsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/fees"
+          element={
+            <ProtectedRoute>
+              <FeesPage />
             </ProtectedRoute>
           }
         />

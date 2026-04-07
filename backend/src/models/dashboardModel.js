@@ -11,6 +11,11 @@ export const getDashboardStatsByTenant = async (tenantId) => {
     [tenantId]
   );
 
+  const [[revenueRow]] = await db.execute(
+    'SELECT COALESCE(SUM(amount_paid), 0) AS total_revenue FROM fees WHERE tenant_id = ?',
+    [tenantId]
+  );
+
   const [recentStudents] = await db.execute(
     `SELECT id, name, email, course, created_at
      FROM students
@@ -21,8 +26,9 @@ export const getDashboardStatsByTenant = async (tenantId) => {
   );
 
   return {
-    total_students: studentCountRow.total_students,
-    total_courses: courseCountRow.total_courses,
+    total_students: Number(studentCountRow.total_students),
+    total_courses: Number(courseCountRow.total_courses),
+    total_revenue: Number(revenueRow.total_revenue),
     recent_students: recentStudents
   };
 };

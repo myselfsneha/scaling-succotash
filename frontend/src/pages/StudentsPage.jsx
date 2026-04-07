@@ -72,9 +72,14 @@ export const StudentsPage = () => {
       <div className="rounded-xl bg-white p-6 shadow">
         <div className="mb-4 flex items-center justify-between">
           <h1 className="text-2xl font-bold text-slate-800">Student Management</h1>
-          <Link to="/dashboard" className="text-sm font-medium text-blue-600">
-            ← Back to Dashboard
-          </Link>
+          <div className="flex gap-3">
+            <Link to="/dashboard" className="text-sm font-medium text-blue-600">
+              ← Dashboard
+            </Link>
+            <Link to="/fees" className="text-sm font-medium text-emerald-600">
+              Fees →
+            </Link>
+          </div>
         </div>
 
         {error && <p className="mb-4 rounded bg-red-100 p-2 text-sm text-red-700">{error}</p>}
