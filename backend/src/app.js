@@ -1,5 +1,6 @@
 import cors from 'cors';
 import express from 'express';
+import attendanceRoutes from './routes/attendanceRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import dashboardRoutes from './routes/dashboardRoutes.js';
 import feeRoutes from './routes/feeRoutes.js';
@@ -18,6 +19,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/fees', feeRoutes);
+app.use('/api/attendance', attendanceRoutes);
 
 app.use((error, _req, res, _next) => {
   if (error?.code === 'ER_DUP_ENTRY') {

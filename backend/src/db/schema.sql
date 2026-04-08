@@ -33,3 +33,13 @@ CREATE TABLE IF NOT EXISTS fees (
   paid_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS attendance (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  student_id INT NOT NULL,
+  status ENUM('present', 'absent') NOT NULL,
+  date DATE NOT NULL,
+  tenant_id VARCHAR(100) NOT NULL,
+  UNIQUE KEY unique_attendance_per_day (student_id, date, tenant_id),
+  FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE
+);

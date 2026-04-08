@@ -7,8 +7,9 @@ A full-stack starter for a **Student Management System** with:
 - **Auth**: JWT login/register
 - **Multi-tenant isolation** using `tenant_id`
 - **Student CRUD** scoped per tenant
-- **Dashboard stats API + modern SaaS dashboard UI**
 - **Fees management** (payments, revenue, pending fees)
+- **Attendance tracking + insights**
+- **Modern dashboard** with cards and analytics sections
 
 ## Folder Structure
 
@@ -17,9 +18,8 @@ A full-stack starter for a **Student Management System** with:
 ├── backend
 │   ├── src
 │   │   ├── config
-│   │   │   ├── db.js
-│   │   │   └── env.js
 │   │   ├── controllers
+│   │   │   ├── attendanceController.js
 │   │   │   ├── authController.js
 │   │   │   ├── dashboardController.js
 │   │   │   ├── feeController.js
@@ -27,20 +27,19 @@ A full-stack starter for a **Student Management System** with:
 │   │   ├── db
 │   │   │   └── schema.sql
 │   │   ├── middleware
-│   │   │   └── authMiddleware.js
 │   │   ├── models
+│   │   │   ├── attendanceModel.js
 │   │   │   ├── dashboardModel.js
 │   │   │   ├── feeModel.js
 │   │   │   ├── studentModel.js
 │   │   │   └── userModel.js
 │   │   ├── routes
+│   │   │   ├── attendanceRoutes.js
 │   │   │   ├── authRoutes.js
 │   │   │   ├── dashboardRoutes.js
 │   │   │   ├── feeRoutes.js
 │   │   │   └── studentRoutes.js
 │   │   ├── utils
-│   │   │   ├── asyncHandler.js
-│   │   │   └── token.js
 │   │   ├── app.js
 │   │   └── server.js
 │   ├── .env.example
@@ -48,10 +47,9 @@ A full-stack starter for a **Student Management System** with:
 ├── frontend
 │   ├── src
 │   │   ├── components
-│   │   │   └── ProtectedRoute.jsx
 │   │   ├── context
-│   │   │   └── AuthContext.jsx
 │   │   ├── pages
+│   │   │   ├── AttendancePage.jsx
 │   │   │   ├── DashboardPage.jsx
 │   │   │   ├── FeesPage.jsx
 │   │   │   ├── LoginPage.jsx
@@ -62,11 +60,7 @@ A full-stack starter for a **Student Management System** with:
 │   │   ├── App.jsx
 │   │   ├── index.css
 │   │   └── main.jsx
-│   ├── index.html
-│   ├── package.json
-│   ├── postcss.config.js
-│   ├── tailwind.config.js
-│   └── vite.config.js
+│   └── ...
 └── README.md
 ```
 
@@ -78,19 +72,14 @@ Run SQL in `backend/src/db/schema.sql` to create:
 - `courses(id, name, tenant_id)`
 - `students(id, name, email, course, tenant_id)`
 - `fees(id, student_id, amount_paid, tenant_id, paid_at)`
+- `attendance(id, student_id, status, date, tenant_id)`
 
 ## API Endpoints
 
-### Auth
-- `POST /api/auth/register`
-- `POST /api/auth/login`
-- `GET /api/auth/me` (protected)
-
-### Students (protected)
-- `GET /api/students`
-- `POST /api/students`
-- `PUT /api/students/:id`
-- `DELETE /api/students/:id`
+### Attendance (protected)
+- `POST /api/attendance` → mark attendance
+- `GET /api/attendance` → list records
+- `GET /api/attendance/summary` → `{ attendance_percentage, low_attendance_students }`
 
 ### Fees (protected)
 - `POST /api/fees` → add payment
@@ -102,29 +91,8 @@ Run SQL in `backend/src/db/schema.sql` to create:
   - `total_students`
   - `total_courses`
   - `total_revenue`
-  - `recent_students` (last 5)
+  - `average_attendance_percentage`
+  - `low_attendance_students`
+  - `recent_students`
 
-All student, fees, and dashboard routes only operate on rows matching the logged-in user's `tenant_id`.
-
-## Quick Start
-
-### 1) Backend
-
-```bash
-cd backend
-cp .env.example .env
-npm install
-# create DB and run backend/src/db/schema.sql in MySQL
-npm run dev
-```
-
-### 2) Frontend
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-- Frontend: `http://localhost:5173`
-- Backend: `http://localhost:5000`
+All APIs are tenant-filtered by authenticated user's `tenant_id`.

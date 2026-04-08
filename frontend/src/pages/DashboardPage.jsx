@@ -9,6 +9,8 @@ export const DashboardPage = () => {
     total_students: 0,
     total_courses: 0,
     total_revenue: 0,
+    average_attendance_percentage: 0,
+    low_attendance_students: [],
     recent_students: []
   });
   const [error, setError] = useState('');
@@ -45,6 +47,9 @@ export const DashboardPage = () => {
           <Link to="/fees" className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white">
             Fees
           </Link>
+          <Link to="/attendance" className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white">
+            Attendance
+          </Link>
           <button onClick={logout} className="rounded-lg bg-slate-800 px-4 py-2 text-sm font-medium text-white">
             Logout
           </button>
@@ -53,7 +58,7 @@ export const DashboardPage = () => {
 
       {error && <p className="rounded-lg bg-red-100 p-3 text-sm text-red-700">{error}</p>}
 
-      <section className="grid gap-4 md:grid-cols-3">
+      <section className="grid gap-4 md:grid-cols-4">
         <div className="rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 p-6 text-white shadow-sm">
           <p className="text-sm uppercase tracking-wide text-blue-100">Total Students</p>
           <p className="mt-3 text-4xl font-bold">{stats.total_students}</p>
@@ -65,6 +70,41 @@ export const DashboardPage = () => {
         <div className="rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 p-6 text-white shadow-sm">
           <p className="text-sm uppercase tracking-wide text-emerald-100">Total Revenue</p>
           <p className="mt-3 text-4xl font-bold">${stats.total_revenue.toLocaleString()}</p>
+        </div>
+        <div className="rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-600 p-6 text-white shadow-sm">
+          <p className="text-sm uppercase tracking-wide text-indigo-100">Avg Attendance</p>
+          <p className="mt-3 text-4xl font-bold">{stats.average_attendance_percentage}%</p>
+        </div>
+      </section>
+
+      <section className="rounded-2xl bg-white shadow-sm">
+        <div className="border-b border-slate-200 px-6 py-4">
+          <h2 className="text-lg font-semibold text-slate-900">Students Below 75% Attendance</h2>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="min-w-full text-left text-sm">
+            <thead className="bg-slate-50 text-slate-600">
+              <tr>
+                <th className="px-6 py-3 font-medium">Student</th>
+                <th className="px-6 py-3 font-medium">Attendance %</th>
+              </tr>
+            </thead>
+            <tbody>
+              {stats.low_attendance_students.map((student) => (
+                <tr key={student.student_id} className="border-t border-slate-100">
+                  <td className="px-6 py-3 text-slate-800">{student.student_name}</td>
+                  <td className="px-6 py-3 text-rose-600">{student.attendance_percentage}%</td>
+                </tr>
+              ))}
+              {stats.low_attendance_students.length === 0 && (
+                <tr>
+                  <td colSpan={2} className="px-6 py-8 text-center text-slate-500">
+                    Great job! No students below 75% attendance.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
       </section>
 

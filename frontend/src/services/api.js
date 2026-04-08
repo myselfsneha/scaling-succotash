@@ -92,3 +92,27 @@ export const feeApi = {
       }
     })
 };
+
+export const attendanceApi = {
+  create: (token, payload) =>
+    request('/attendance', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(payload)
+    }),
+  list: (token) =>
+    request('/attendance', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }),
+  summary: (token) =>
+    request('/attendance/summary', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+};
