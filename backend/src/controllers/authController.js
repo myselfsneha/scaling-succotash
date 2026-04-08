@@ -3,10 +3,14 @@ import { createUser, findUserByEmail } from '../models/userModel.js';
 import { generateToken } from '../utils/token.js';
 
 export const register = async (req, res) => {
-  const { email, password, role = 'admin', tenant_id: tenantId } = req.body;
+  const { email, password, role = 'admin', plan = 'free', tenant_id: tenantId } = req.body;
 
   if (!email || !password || !tenantId) {
     return res.status(400).json({ message: 'Email, password, and tenant_id are required' });
+  }
+
+  if (!['free', 'pro'].includes(plan)) {
+    return res.status(400).json({ message: 'plan must be free or pro' });
   }
 
   const existingUser = await findUserByEmail(email);
@@ -15,12 +19,13 @@ export const register = async (req, res) => {
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  const user = await createUser({ email, password: hashedPassword, role, tenantId });
+  const user = await createUser({ email, password: hashedPassword, role, plan, tenantId });
 
   const token = generateToken({
     id: user.id,
     email: user.email,
     role: user.role,
+    plan: user.plan,
     tenant_id: user.tenant_id
   });
 
@@ -48,6 +53,7 @@ export const login = async (req, res) => {
     id: user.id,
     email: user.email,
     role: user.role,
+    plan: user.plan,
     tenant_id: user.tenant_id
   };
 

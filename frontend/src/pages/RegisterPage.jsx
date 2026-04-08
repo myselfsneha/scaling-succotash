@@ -9,6 +9,7 @@ export const RegisterPage = () => {
     email: '',
     password: '',
     role: 'admin',
+    plan: 'free',
     tenant_id: ''
   });
   const [error, setError] = useState('');
@@ -44,6 +45,15 @@ export const RegisterPage = () => {
           className="w-full rounded border border-slate-300 px-3 py-2"
           required
         />
+        <select
+          name="plan"
+          value={formData.plan}
+          onChange={handleChange}
+          className="w-full rounded border border-slate-300 px-3 py-2"
+        >
+          <option value="free">Free Plan</option>
+          <option value="pro">Pro Plan</option>
+        </select>
         <input
           name="email"
           type="email"

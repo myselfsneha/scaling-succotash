@@ -5,16 +5,17 @@ export const findUserByEmail = async (email) => {
   return rows[0] || null;
 };
 
-export const createUser = async ({ email, password, role, tenantId }) => {
+export const createUser = async ({ email, password, role, plan, tenantId }) => {
   const [result] = await db.execute(
-    'INSERT INTO users (email, password, role, tenant_id) VALUES (?, ?, ?, ?)',
-    [email, password, role, tenantId]
+    'INSERT INTO users (email, password, role, plan, tenant_id) VALUES (?, ?, ?, ?, ?)',
+    [email, password, role, plan, tenantId]
   );
 
   return {
     id: result.insertId,
     email,
     role,
+    plan,
     tenant_id: tenantId
   };
 };
