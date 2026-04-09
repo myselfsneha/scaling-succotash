@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { apiService } from '../services/reactNativeApi';
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -24,8 +24,8 @@ const LoginScreen = ({ navigation }) => {
     setIsLoading(true);
 
     try {
-      await apiService.login({ email, password });
-      navigation.replace('Dashboard');
+      const data = await apiService.login({ email, password });
+      onLoginSuccess?.(data?.token || null);
     } catch (error) {
       Alert.alert('Login Failed', error.message || 'Invalid credentials. Please try again.');
     } finally {

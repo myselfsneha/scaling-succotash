@@ -1,12 +1,16 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-const DashboardScreen = () => {
+const DashboardScreen = ({ onLogout }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.card}>
         <Text style={styles.title}>Dashboard</Text>
         <Text style={styles.subtitle}>You are logged in successfully.</Text>
+
+        <TouchableOpacity style={styles.button} onPress={onLogout}>
+          <Text style={styles.buttonText}>Logout</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -39,8 +43,20 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     marginTop: 8,
+    marginBottom: 20,
     fontSize: 15,
     color: '#64748b'
+  },
+  button: {
+    backgroundColor: '#0f172a',
+    borderRadius: 10,
+    paddingVertical: 12,
+    alignItems: 'center'
+  },
+  buttonText: {
+    color: '#fff',
+    fontWeight: '600',
+    fontSize: 15
   }
 });
 

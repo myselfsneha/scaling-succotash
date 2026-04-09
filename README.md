@@ -57,6 +57,8 @@ A reusable fetch-based service is available at `frontend/src/services/reactNativ
 - Configurable base URL via `createApiService(baseUrl)`
 - Login API: `POST /login`
 - Returns parsed JSON response
+- Stores JWT using AsyncStorage
+- Automatically attaches `Authorization: Bearer <token>` on requests
 
 
 ### React Native Login Screen
@@ -73,4 +75,4 @@ React Navigation stack is configured in `frontend/src/navigation/AppNavigator.js
 - `Login` screen (`frontend/src/screens/LoginScreen.js`)
 - `Dashboard` screen (`frontend/src/screens/DashboardScreen.js`)
 
-On successful login, `LoginScreen` redirects using `navigation.replace('Dashboard')`.
+Dashboard route is protected by auth state from AsyncStorage token; login sets token, logout clears token.
