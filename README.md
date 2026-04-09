@@ -64,5 +64,13 @@ A ready screen is available at `frontend/src/screens/LoginScreen.js`.
 
 - Inputs: email + password
 - On submit: calls `apiService.login(...)`
-- On success: `navigation.navigate('Dashboard')`
+- On success: `navigation.replace('Dashboard')`
 - On failure: shows `Alert.alert(...)`
+
+
+### React Native Navigation
+React Navigation stack is configured in `frontend/src/navigation/AppNavigator.js` with:
+- `Login` screen (`frontend/src/screens/LoginScreen.js`)
+- `Dashboard` screen (`frontend/src/screens/DashboardScreen.js`)
+
+On successful login, `LoginScreen` redirects using `navigation.replace('Dashboard')`.

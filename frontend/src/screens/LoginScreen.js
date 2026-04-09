@@ -25,7 +25,7 @@ const LoginScreen = ({ navigation }) => {
 
     try {
       await apiService.login({ email, password });
-      navigation.navigate('Dashboard');
+      navigation.replace('Dashboard');
     } catch (error) {
       Alert.alert('Login Failed', error.message || 'Invalid credentials. Please try again.');
     } finally {
