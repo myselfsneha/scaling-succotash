@@ -49,3 +49,11 @@ cd ../frontend
 npm install
 npm run dev
 ```
+
+
+## React Native API Service
+A reusable fetch-based service is available at `frontend/src/services/reactNativeApi.js`.
+
+- Configurable base URL via `createApiService(baseUrl)`
+- Login API: `POST /login`
+- Returns parsed JSON response
