@@ -57,3 +57,12 @@ A reusable fetch-based service is available at `frontend/src/services/reactNativ
 - Configurable base URL via `createApiService(baseUrl)`
 - Login API: `POST /login`
 - Returns parsed JSON response
+
+
+### React Native Login Screen
+A ready screen is available at `frontend/src/screens/LoginScreen.js`.
+
+- Inputs: email + password
+- On submit: calls `apiService.login(...)`
+- On success: `navigation.navigate('Dashboard')`
+- On failure: shows `Alert.alert(...)`
