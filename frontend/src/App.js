@@ -1,58 +1,82 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+const BASE_URL = "https://scaling-succotash-w5aw.onrender.com/api/students";
 
 function App() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [students, setStudents] = useState([]);
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    course: ""
+  });
 
-  const API = "http://localhost:5000/api/auth";
-
-  const signup = async () => {
-    await fetch(`${API}/signup`, {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({ email, password })
-    });
-    alert("Signup done");
+  // 🔥 GET students
+  const getStudents = async () => {
+    try {
+      const res = await axios.get(BASE_URL);
+      setStudents(res.data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const login = async () => {
-    const res = await fetch(`${API}/login`, {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({ email, password })
-    });
+  useEffect(() => {
+    getStudents();
+  }, []);
 
-    const data = await res.json();
-    localStorage.setItem("token", data.token);
-    alert("Login success");
+  // ✏️ handle input
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  // ➕ ADD student
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post(BASE_URL, form);
+      getStudents(); // refresh
+      setForm({ name: "", email: "", course: "" });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
-    <div className="h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-6 rounded shadow w-80">
-        <h2 className="text-xl mb-4">Auth</h2>
+    <div style={{ padding: "20px" }}>
+      <h1>Student Manager 🚀</h1>
 
+      {/* FORM */}
+      <form onSubmit={handleSubmit}>
         <input
-          className="border p-2 w-full mb-2"
+          name="name"
+          placeholder="Name"
+          value={form.name}
+          onChange={handleChange}
+        />
+        <input
+          name="email"
           placeholder="Email"
-          onChange={(e)=>setEmail(e.target.value)}
+          value={form.email}
+          onChange={handleChange}
         />
-
         <input
-          className="border p-2 w-full mb-2"
-          type="password"
-          placeholder="Password"
-          onChange={(e)=>setPassword(e.target.value)}
+          name="course"
+          placeholder="Course"
+          value={form.course}
+          onChange={handleChange}
         />
+        <button type="submit">Add</button>
+      </form>
 
-        <button onClick={signup} className="bg-blue-500 text-white p-2 w-full mb-2">
-          Signup
-        </button>
-
-        <button onClick={login} className="bg-green-500 text-white p-2 w-full">
-          Login
-        </button>
-      </div>
+      {/* LIST */}
+      <ul>
+        {students.map((s) => (
+          <li key={s._id}>
+            {s.name} - {s.email} - {s.course}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

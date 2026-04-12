@@ -1,25 +1,27 @@
 import express from "express";
-import cors from "cors";
 import mongoose from "mongoose";
+import cors from "cors";
+import studentRoutes from "./routes/studentRoutes.js";
 
 const app = express();
-
-const PORT = process.env.PORT || 5000;
-const MONGO_URI = process.env.MONGO_URI;
-
-// DB connect
-mongoose.connect(MONGO_URI)
-  .then(() => console.log("MongoDB Connected ✅"))
-  .catch(err => console.log("DB Error:", err));
 
 // middleware
 app.use(cors());
 app.use(express.json());
 
+// routes
+app.use("/api/students", studentRoutes);
+
+// test route
 app.get("/", (req, res) => {
-  res.send("API running 🚀");
+  res.send("API is running...");
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on ${PORT}`);
-});
+// DB connect
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.log(err));
+
+// server
+const PORT = process.env.PORT || 10000;
+app.listen(PORT, () => console.log(`Server running on ${PORT}`));
