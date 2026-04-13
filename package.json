@@ -1,10 +1,8 @@
 {
-  "dependencies": {
-    "cors": "^2.8.6",
-    "express": "^5.2.1",
-    "mongoose": "^9.4.1"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.14"
+  "name": "student-management",
+  "version": "1.0.0",
+  "main": "backend/src/server.js",
+  "scripts": {
+    "start": "node backend/src/server.js"
   }
 }
