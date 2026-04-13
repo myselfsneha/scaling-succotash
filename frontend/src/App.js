@@ -11,7 +11,6 @@ function App() {
     course: ""
   });
 
-  // 🔥 GET students
   const getStudents = async () => {
     try {
       const res = await axios.get(BASE_URL);
@@ -25,17 +24,15 @@ function App() {
     getStudents();
   }, []);
 
-  // ✏️ handle input
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // ➕ ADD student
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await axios.post(BASE_URL, form);
-      getStudents(); // refresh
+      getStudents();
       setForm({ name: "", email: "", course: "" });
     } catch (err) {
       console.log(err);
@@ -46,30 +43,13 @@ function App() {
     <div style={{ padding: "20px" }}>
       <h1>Student Manager 🚀</h1>
 
-      {/* FORM */}
       <form onSubmit={handleSubmit}>
-        <input
-          name="name"
-          placeholder="Name"
-          value={form.name}
-          onChange={handleChange}
-        />
-        <input
-          name="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={handleChange}
-        />
-        <input
-          name="course"
-          placeholder="Course"
-          value={form.course}
-          onChange={handleChange}
-        />
+        <input name="name" placeholder="Name" value={form.name} onChange={handleChange} />
+        <input name="email" placeholder="Email" value={form.email} onChange={handleChange} />
+        <input name="course" placeholder="Course" value={form.course} onChange={handleChange} />
         <button type="submit">Add</button>
       </form>
 
-      {/* LIST */}
       <ul>
         {students.map((s) => (
           <li key={s._id}>
