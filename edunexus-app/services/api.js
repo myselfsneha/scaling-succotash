@@ -1,18 +1,7 @@
-const BASE_URL = "http://192.168.29.2:5000/api";
+import axios from "axios";
 
-export const getStudents = async () => {
-  const res = await fetch(`${BASE_URL}/students`);
-  return res.json();
-};
+const api = axios.create({
+  baseURL: "https://scaling-succotash-w5aw.onrender.com/api",
+});
 
-export const addStudent = async (student) => {
-  const res = await fetch(`${BASE_URL}/students`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(student),
-  });
-
-  return res.json();
-};
+export default api;

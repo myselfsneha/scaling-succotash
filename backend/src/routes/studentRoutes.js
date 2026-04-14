@@ -3,21 +3,21 @@ import Student from "../models/Student.js";
 
 const router = express.Router();
 
-// GET all students
+// GET
 router.get("/", async (req, res) => {
   try {
-    const students = await Student.find();
-    res.json(students);
+    const data = await Student.find();
+    res.json(data);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-// POST student
+// POST
 router.post("/", async (req, res) => {
   try {
-    const student = new Student(req.body);
-    const saved = await student.save();
+    const newStudent = new Student(req.body);
+    const saved = await newStudent.save();
     res.json(saved);
   } catch (err) {
     res.status(500).json({ error: err.message });

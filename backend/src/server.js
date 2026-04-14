@@ -1,10 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import dotenv from "dotenv";
 import studentRoutes from "./routes/studentRoutes.js";
-
-dotenv.config();
 
 const app = express();
 
@@ -15,18 +12,19 @@ app.use(express.json());
 // routes
 app.use("/api/students", studentRoutes);
 
-// test route
+// test
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
 
-// DB connect
+// DB
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ MongoDB connected"))
-  .catch((err) => console.log("❌ DB ERROR:", err));
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.log(err));
 
-// server
+// PORT (IMPORTANT FOR RENDER)
 const PORT = process.env.PORT || 10000;
-app.listen(PORT, () => console.log(`🚀 Server running on ${PORT}`));
 
-console.log("MONGO_URI:", process.env.MONGO_URI);
+app.listen(PORT, () => {
+  console.log(`Server running on ${PORT}`);
+});
