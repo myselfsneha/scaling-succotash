@@ -1,27 +1,7 @@
-import express from "express";
-import Student from "../models/Student.js";
+import { protect, adminOnly } from "../middleware/authMiddleware.js";
 
-const router = express.Router();
-
-// GET
-router.get("/", async (req, res) => {
-  try {
-    const data = await Student.find();
-    res.json(data);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+router.post("/", protect, adminOnly, async (req, res) => {
+  const student = new Student(req.body);
+  const saved = await student.save();
+  res.json(saved);
 });
-
-// POST
-router.post("/", async (req, res) => {
-  try {
-    const newStudent = new Student(req.body);
-    const saved = await newStudent.save();
-    res.json(saved);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-export default router;

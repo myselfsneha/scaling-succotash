@@ -1,32 +1,19 @@
 import express from "express";
-import User from "../models/User.js";
+import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
-// REGISTER
-router.post("/register", async (req, res) => {
-  try {
-    const user = new User(req.body);
-    const saved = await user.save();
-    res.json(saved);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+router.post("/login", (req, res) => {
+  const user = {
+    id: "123",
+    role: "admin" // change to "user" to test
+  };
 
-// LOGIN
-router.post("/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
+  const token = jwt.sign(user, process.env.JWT_SECRET, {
+    expiresIn: "1d"
+  });
 
-    const user = await User.findOne({ email, password });
-
-    if (!user) return res.status(400).json({ msg: "Invalid credentials" });
-
-    res.json({ msg: "Login success", user });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+  res.json({ token, role: user.role });
 });
 
 export default router;

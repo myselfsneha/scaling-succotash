@@ -1,38 +1,100 @@
-.App {
+body {
+  background: linear-gradient(135deg, #1e1e2f, #2b2b4b);
+  color: white;
+  font-family: Arial;
+}
+
+.container {
+  padding: 20px;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+h1 {
+  margin-bottom: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.form input {
+  margin: 5px;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+button {
+  padding: 10px 15px;
+  border: none;
+  background: #00c6ff;
   color: white;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
-.App-link {
-  color: #61dafb;
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.card {
+  background: rgba(255,255,255,0.1);
+  margin: 10px;
+  padding: 15px;
+  border-radius: 12px;
+  width: 200px;
+  backdrop-filter: blur(10px);
+}
+
+.search {
+  padding: 10px;
+  margin-bottom: 15px;
+  width: 200px;
+  border-radius: 8px;
+  border: none;
+}
+
+.card button {
+  margin: 5px;
+}
+
+body {
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: white;
+  font-family: "Poppins", sans-serif;
+}
+
+.container {
+  text-align: center;
+  padding: 20px;
+}
+
+.form input {
+  margin: 8px;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+}
+
+button {
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(45deg, #00c6ff, #0072ff);
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.1);
+  margin: 15px;
+  padding: 20px;
+  border-radius: 15px;
+  width: 220px;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
 }
