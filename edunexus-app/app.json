@@ -18,6 +18,12 @@
       "eas": {
         "projectId": "02b0dbbe-d85e-4bdd-a945-57d9bf3ad9a0"
       }
+    },
+    "ios": {
+      "bundleIdentifier": "com.edunexus.app",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     }
   }
 }

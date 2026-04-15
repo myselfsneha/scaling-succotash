@@ -1,73 +1,51 @@
 import { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { TextInput, TouchableOpacity, Text } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import API from "../services/api";
 
-export default function Login({ setUser }) {
+export default function Login({ setScreen }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
-    // 🔥 simple demo login (no backend yet)
-    if (email && password) {
-      setUser({ email });
-    } else {
-      alert("Enter email & password");
-    }
-  };
+  const handleLogin = async () => {
+  try {
+    const res = await API.post("/auth/login", {
+      email,
+      password
+    });
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>EduNexus 📱</Text>
+    console.log(res.data); // 👈 ADD THIS
 
-      <TextInput
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        style={styles.input}
-      />
+    global.token = res.data.token;
+    global.isPremium = res.data.user.isPremium;
 
-      <TextInput
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-        style={styles.input}
-      />
+    alert("Login success");
+    setScreen("students");
 
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={{ color: "#fff" }}>Login</Text>
-      </TouchableOpacity>
-    </View>
-  );
-}
-
-const styles = {
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    padding: 20,
-    backgroundColor: "#0f2027"
-  },
-
-  title: {
-    fontSize: 30,
-    fontWeight: "bold",
-    color: "#fff",
-    textAlign: "center",
-    marginBottom: 30
-  },
-
-  input: {
-    backgroundColor: "#fff",
-    padding: 14,
-    marginVertical: 10,
-    borderRadius: 12
-  },
-
-  button: {
-    backgroundColor: "#00c6ff",
-    padding: 15,
-    borderRadius: 12,
-    alignItems: "center",
-    marginTop: 10
+  } catch (err) {
+    console.log(err.response?.data || err.message); // 👈 ADD THIS
+    alert("Login failed");
   }
 };
+
+  return (
+    <LinearGradient colors={["#141E30", "#243B55"]}
+      style={{ flex: 1, justifyContent: "center", padding: 20 }}>
+
+      <Text style={{ color: "#fff", fontSize: 28 }}>EduNexus 🚀</Text>
+
+      <TextInput placeholder="Email" onChangeText={setEmail}
+        style={{ backgroundColor: "#fff", marginTop: 10, padding: 10 }} />
+
+      <TextInput placeholder="Password" secureTextEntry onChangeText={setPassword}
+        style={{ backgroundColor: "#fff", marginTop: 10, padding: 10 }} />
+
+      <TouchableOpacity onPress={handleLogin}>
+        <Text style={{ color: "#00c6ff", marginTop: 20 }}>
+          Login
+        </Text>
+      </TouchableOpacity>
+
+    </LinearGradient>
+  );
+}
