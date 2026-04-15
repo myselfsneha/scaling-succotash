@@ -9,21 +9,18 @@ export default function Login({ setScreen }) {
 
   const handleLogin = async () => {
   try {
-    const res = await API.post("/auth/login", {
+    const res = await API.post("/login", {
       email,
-      password
+      password,
+      role: "college"
     });
 
-    console.log(res.data); // 👈 ADD THIS
+    console.log(res.data);
 
-    global.token = res.data.token;
-    global.isPremium = res.data.user.isPremium;
-
-    alert("Login success");
     setScreen("students");
 
   } catch (err) {
-    console.log(err.response?.data || err.message); // 👈 ADD THIS
+    console.log(err.response?.data || err.message);
     alert("Login failed");
   }
 };
